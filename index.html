@@ -56,8 +56,21 @@ tailwind.config = {
   :root{
     --ink:#16232B; --paper:#EFEDE4; --tide:#2B5F73; --foam:#9CC0B6; --driftwood:#A9825A;
   }
-  html{ overflow-x:hidden; }
-  body{ font-family:'Noto Sans TC', sans-serif; background:var(--paper); color:var(--ink); overflow-x:hidden; -webkit-text-size-adjust:100%; }
+  /* 修正：更嚴格地限制 html 和 body 的溢出，防止出現雙滾動條 */
+  html, body { 
+    max-width: 100vw; /* 限制最大寬度為視窗寬度 */
+    overflow-x: hidden; /* 隱藏水平滾動條 */
+    margin: 0;
+    padding: 0;
+  }
+  body { 
+    font-family: 'Noto Sans TC', sans-serif; 
+    background: var(--paper); 
+    color: var(--ink); 
+    -webkit-text-size-adjust: 100%; 
+    /* 如果有因為某些元素(如絕對定位)造成垂直方向撐破，嘗試加這行限制，但通常不需要，主要還是 x 軸問題
+    overflow-y: auto; */
+  }
   .font-en{ font-family:'Fraunces', serif; }
   h1,h2,h3,h4{ font-family:'Noto Serif TC', serif; }
 
@@ -141,13 +154,22 @@ tailwind.config = {
   .art-frame{ border-radius:2px; overflow:hidden; position:relative; }
   .line-art{ mix-blend-mode:screen; opacity:.85; }
   .badge-img{ border-radius:9999px; object-fit:cover; }
+
+  /* 新增：確保所有圖片預設為 block，避免底部留白撐開容器 */
+  img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
 </style>
 </head>
 <body class="antialiased">
 
 <!-- ============ HERO ============ -->
-<header class="relative overflow-hidden bg-ink">
-  <img src="https://wandering2026.github.io/Tide-Line-Images/hero-bg.jpg" width="1080" height="1350" alt="" aria-hidden="true" class="absolute inset-0 w-full h-full object-cover opacity-80" fetchpriority="high" loading="eager" decoding="async">
+<!-- 修正：確保 header 容器本身不會溢出，特別是 min-h-screen 如果有的話 -->
+<header class="relative w-full overflow-hidden bg-ink">
+  <!-- 修正：移除硬編碼的 width="1080" height="1350"，改由 CSS 控制 -->
+  <img src="https://wandering2026.github.io/Tide-Line-Images/hero-bg.jpg" alt="" aria-hidden="true" class="absolute inset-0 w-full h-full object-cover opacity-80" fetchpriority="high" loading="eager" decoding="async">
   <div class="absolute inset-0" style="background:linear-gradient(180deg, rgba(22,35,43,.55) 0%, rgba(22,35,43,.72) 45%, rgba(22,35,43,.92) 100%);"></div>
 
   <div class="relative max-w-5xl mx-auto px-5 sm:px-8 pt-10 sm:pt-24 pb-20 sm:pb-36">
@@ -174,8 +196,9 @@ tailwind.config = {
 </header>
 
 <!-- ============ 主視覺插畫 ============ -->
-<figure class="bg-ink relative m-0">
-  <img src="https://wandering2026.github.io/Tide-Line-Images/hero-artwork-text.jpg" width="1080" height="1350" alt="停浪線主視覺插畫：潮線蜿蜒穿越夜色，沿途是玩耍、對話與相遇的人們" class="w-full h-auto block opacity-95" loading="lazy" decoding="async">
+<figure class="bg-ink relative m-0 w-full">
+  <!-- 修正：移除硬編碼的 width="1080" height="1350"，避免在某些裝置上強制撐開 -->
+  <img src="https://wandering2026.github.io/Tide-Line-Images/hero-artwork-text.jpg" alt="停浪線主視覺插畫：潮線蜿蜒穿越夜色，沿途是玩耍、對話與相遇的人們" class="w-full h-auto block opacity-95 mx-auto" loading="lazy" decoding="async">
   <figcaption class="text-center text-paper/45 text-xs tracking-widest py-4 font-en italic">— 停浪線・主視覺插畫 —</figcaption>
 </figure>
 
