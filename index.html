@@ -56,21 +56,19 @@ tailwind.config = {
   :root{
     --ink:#16232B; --paper:#EFEDE4; --tide:#2B5F73; --foam:#9CC0B6; --driftwood:#A9825A;
   }
-  /* 修正：更嚴格地限制 html 和 body 的溢出，防止出現雙滾動條 */
-  html, body { 
-    max-width: 100vw; /* 限制最大寬度為視窗寬度 */
-    overflow-x: hidden; /* 隱藏水平滾動條 */
-    margin: 0;
-    padding: 0;
-  }
+  
+  /* 修正：移除 html, body 的 max-width: 100vw 限制，單純由 body 處理水平溢出 */
   body { 
     font-family: 'Noto Sans TC', sans-serif; 
     background: var(--paper); 
     color: var(--ink); 
     -webkit-text-size-adjust: 100%; 
-    /* 如果有因為某些元素(如絕對定位)造成垂直方向撐破，嘗試加這行限制，但通常不需要，主要還是 x 軸問題
-    overflow-y: auto; */
+    margin: 0;
+    padding: 0;
+    width: 100%; /* 使用 100% 而非 100vw，避免把外側滾動條寬度算進去 */
+    overflow-x: hidden; /* 隱藏水平滾動條 */
   }
+  
   .font-en{ font-family:'Fraunces', serif; }
   h1,h2,h3,h4{ font-family:'Noto Serif TC', serif; }
 
