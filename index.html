@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-Hant" class="scroll-smooth">
+<html lang="zh-Hant">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
@@ -61,6 +61,7 @@ tailwind.config = {
   }
   
   body { 
+    /* 同樣把 Fraunces 放在第一順位 */
     font-family: 'Fraunces', 'Noto Sans TC', sans-serif; 
     background: var(--paper); 
     color: var(--ink); 
@@ -138,7 +139,7 @@ tailwind.config = {
   details > summary::-webkit-details-marker{ display:none; }
   details[open] summary .chev{ transform:rotate(90deg); }
 
-  .card{ border:1px solid rgba(22,35,43,.12); background:transparent; transition: border-color 0.3s ease; }
+  .card{ border:1px solid rgba(22,35,43,.12); background:transparent; }
   .card:hover{ border-color:rgba(22,35,43,.32); }
 
   .stat-num{ font-family:'Fraunces', serif; font-weight:500; }
@@ -158,32 +159,24 @@ tailwind.config = {
     height: auto;
   }
   
+  /* 新增：平滑捲動與保留導航列高度的間距 */
   html { 
     scroll-behavior: smooth; 
     scroll-padding-top: 4rem; 
-  }
-
-  #mobile-menu {
-    transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
-    max-height: 0;
-    opacity: 0;
-    overflow: hidden;
-  }
-  #mobile-menu.is-open {
-    max-height: 400px;
-    opacity: 1;
   }
 </style>
 </head>
 <body class="antialiased">
 
-<!-- ============ NAVBAR ============ -->
+<!-- ============ NAVBAR (新增導航列) ============ -->
 <nav class="fixed top-0 left-0 right-0 z-[100] bg-ink/90 backdrop-blur-md border-b border-paper/10 transition-all duration-300">
   <div class="max-w-5xl mx-auto px-5 sm:px-8 h-16 flex items-center justify-between">
+    <!-- Brand -->
     <a href="#" class="flex items-center transition-opacity hover:opacity-80">
       <span class="font-en text-xl text-paper tracking-wide font-medium">Tide Line</span>
     </a>
     
+    <!-- Desktop Links -->
     <div class="hidden md:flex items-center gap-8 text-sm font-medium text-paper/80">
       <a href="#about" class="hover:text-paper transition-colors">關於計畫</a>
       <a href="#info" class="hover:text-paper transition-colors">計畫內容</a>
@@ -191,40 +184,49 @@ tailwind.config = {
       <a href="#impact" class="hover:text-paper transition-colors">預期效益</a>
     </div>
     
+    <!-- CTA -->
     <div class="hidden md:block">
-      <a href="https://docs.google.com/forms/d/e/1FAIpQLSepuJiZShmdcq8QpGgVnMXtw6csF9n3bxCpwX1_H3Ya-3vdFw/viewform?pli=1" target="_blank" rel="noopener noreferrer" class="btn-primary !py-2 !px-5 text-sm !border-paper/30 hover:!border-tide rounded-sm">立即報名</a>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSepuJiZShmdcq8QpGgVnMXtw6csF9n3bxCpwX1_H3Ya-3vdFw/viewform?pli=1" target="_blank" rel="noopener noreferrer" class="btn-primary !py-2 !px-5 text-sm !border-paper/30 hover:!border-tide">立即報名</a>
     </div>
     
-    <button class="md:hidden text-paper/80 hover:text-paper p-2 -mr-2 focus:outline-none" id="mobile-menu-btn" aria-expanded="false" aria-label="Toggle menu">
+    <!-- Mobile Menu Toggle -->
+    <button class="md:hidden text-paper/80 hover:text-paper p-2 -mr-2" id="mobile-menu-btn" aria-label="Toggle menu">
       <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
       </svg>
     </button>
   </div>
   
-  <div class="md:hidden bg-ink border-b border-paper/10 absolute top-full left-0 right-0 shadow-xl" id="mobile-menu">
+  <!-- Mobile Menu Panel -->
+  <div class="md:hidden hidden bg-ink border-b border-paper/10 absolute top-full left-0 right-0 shadow-xl" id="mobile-menu">
     <div class="px-5 py-5 flex flex-col gap-5 text-sm font-medium text-paper/80">
       <a href="#about" class="hover:text-paper transition-colors mobile-link">關於計畫</a>
       <a href="#info" class="hover:text-paper transition-colors mobile-link">計畫內容</a>
       <a href="#schedule" class="hover:text-paper transition-colors mobile-link">活動日程</a>
       <a href="#impact" class="hover:text-paper transition-colors mobile-link">預期效益</a>
-      <a href="https://docs.google.com/forms/d/e/1FAIpQLSepuJiZShmdcq8QpGgVnMXtw6csF9n3bxCpwX1_H3Ya-3vdFw/viewform?pli=1" target="_blank" rel="noopener noreferrer" class="text-foam mobile-link mt-1 border border-paper/20 rounded-sm py-3 px-4 text-center hover:bg-paper/10">立即報名參與 →</a>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSepuJiZShmdcq8QpGgVnMXtw6csF9n3bxCpwX1_H3Ya-3vdFw/viewform?pli=1" target="_blank" rel="noopener noreferrer" class="text-foam mobile-link mt-1">立即報名參與 →</a>
     </div>
   </div>
 </nav>
 
 <!-- ============ HERO ============ -->
 <header class="relative overflow-hidden bg-ink pt-8">
-  <img src="https://wandering2026.github.io/Tide-Line-Images/hero-bg.jpg" onerror="this.src='https://placehold.co/1920x1080/16232B/EFEDE4?text=Tide+Line+Background'" alt="" aria-hidden="true" class="absolute inset-0 w-full h-full object-cover grayscale" style="filter: grayscale(100%) brightness(20%);" fetchpriority="high" loading="eager" decoding="async">
+  <img src="https://wandering2026.github.io/Tide-Line-Images/hero-bg.jpg" alt="" aria-hidden="true" class="absolute inset-0 w-full h-full object-cover grayscale" style="filter: grayscale(100%) brightness(20%);" fetchpriority="high" loading="eager" decoding="async">
   <div class="absolute inset-0" style="background:linear-gradient(180deg, rgba(22,35,43,.55) 0%, rgba(22,35,43,.72) 45%, rgba(22,35,43,.92) 100%);"></div>
 
+  <!-- 調整上方的 padding (pt-16) 以避開導航列 -->
   <div class="relative max-w-5xl mx-auto px-5 sm:px-8 pt-20 sm:pt-28 pb-20 sm:pb-36">
     
+    <!-- 新增一個 max-w-3xl 的包裝容器，讓 Logo 與下方段落的右側完美切齊 -->
     <div class="max-w-3xl">
+      <!-- 強制全尺寸保持左右排列：左側文字，右側 Logo -->
       <div class="grid grid-cols-[1fr_auto] gap-2 sm:gap-8 items-stretch mb-6 sm:mb-8">
+        
+        <!-- 左側/上方文字區塊 -->
         <div class="flex flex-col justify-between py-1 sm:py-4">
           <div>
-            
+            <p class="eyebrow on-dark mb-3 sm:mb-6">一場跨體制的教育實驗</p>
+            <!-- 手機版稍微縮小字級為 text-[2rem] 以確保左右並排不破版 -->
             <h1 class="text-[2rem] sm:text-7xl font-bold text-paper leading-[1.15] sm:leading-[1.1] mb-1 sm:mb-3">
               停浪線計畫
             </h1>
@@ -232,11 +234,15 @@ tailwind.config = {
           <p class="font-display font-medium text-lg sm:text-3xl text-[#78b4e6] tracking-wide">Tide&nbsp;Line</p>
         </div>
         
+        <!-- 右側/下方 Logo 區塊 -->
         <div class="flex items-center justify-end w-full">
-           <img src="https://wandering2026.github.io/Tide-Line-Images/logo.PNG" onerror="this.src='https://placehold.co/300x300/16232B/78b4e6?text=Logo'" alt="停浪線計畫 Logo" class="max-h-[130px] sm:max-h-[140px] md:max-h-[180px] w-auto object-contain -translate-x-1 sm:-translate-x-18" decoding="async">
+           <!-- 手機版稍微微調位置 (-translate-x-1)，桌機保留您的設定 (sm:-translate-x-14) -->
+           <img src="https://wandering2026.github.io/Tide-Line-Images/logo.PNG" alt="停浪線計畫 Logo" class="max-h-[130px] sm:max-h-[140px] md:max-h-[180px] w-auto object-contain -translate-x-1 sm:-translate-x-18" decoding="async">
         </div>
+        
       </div>
 
+      <!-- 移除原本的 max-w-2xl，讓文字自然填滿 max-w-3xl 容器，藉此與 Logo 邊緣對齊 -->
       <p class="text-base sm:text-xl text-paper/85 leading-relaxed mb-8 sm:mb-10 mt-4 sm:mt-6">
         浪退去後，沙灘上留下一道潮痕——那是浪來過的證據，也是暫時歇息的界線。
         停浪線計畫把主動權交還給學生，以「玩」的姿態，透過跨體制共創面對焦慮與迷茫，
@@ -248,6 +254,7 @@ tailwind.config = {
         <a href="https://docs.google.com/forms/d/e/1FAIpQLScidhVzqEfywpXQnwuek4qtsDvXUmMOwZwCVXLDwKZDfboBOA/viewform" target="_blank" rel="noopener noreferrer" class="btn-secondary !border-paper !text-paper hover:!bg-paper hover:!text-ink px-8 py-3.5 rounded-sm font-medium text-center w-full sm:w-auto">贊助計畫</a>
       </div>
     </div>
+
   </div>
 </header>
 
@@ -256,7 +263,7 @@ tailwind.config = {
 <!-- ============ 關於計畫 ============ -->
 <section id="about" class="bg-paper">
   <div class="max-w-5xl mx-auto px-5 sm:px-8 py-14 sm:py-24">
-    
+    <p class="eyebrow mb-4">關於計畫</p>
     <h2 class="text-3xl sm:text-4xl font-bold text-ink mb-12">以「玩」的姿態，看見彼此真實的樣貌</h2>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-px bg-ink/12 mb-4">
@@ -298,12 +305,65 @@ tailwind.config = {
 <!-- ============ 計畫內容 / 基本資訊 ============ -->
 <section id="info" class="bg-paper-deep">
   <div class="max-w-5xl mx-auto px-5 sm:px-8 py-14 sm:py-24">
-    
+    <p class="eyebrow mb-4">計畫內容</p>
     <h2 class="text-3xl sm:text-4xl font-bold text-ink mb-10">活動基本資訊</h2>
+
     <div class="space-y-4 text-ink/75 leading-relaxed max-w-3xl mb-10 sm:mb-16">
       <p>停浪線計畫預計透過「跨體制共創」在暑假完成一場為期兩天的跨體制交流活動。活動地點選在充滿人文底蘊的嘉義市，以「諸羅設計塾」為主要基地，並延伸至嘉義市城市各空間，讓參與者在真實的城市脈絡中進行探索與對話。選擇嘉義，不僅因為這裡有著深厚的文化積澱與友善的社區網絡，更因為這座城市本身帶有的「慢下來感受生活」的氛圍——這與停浪線計畫希望傳達的價值不謀而合。</p>
       <p>活動預計吸引約 60 人參與（含 20 位工作人員），參與對象涵蓋高中生、大學生、Gap Year 計畫學生，以及所有對停浪線計畫價值理念有興趣的朋友。我們特別歡迎來自不同教育背景、不同生命經驗的夥伴加入，因為多元的視角正是這場實驗最珍貴的養分。</p>
       <p>每位參與者繳交 600 元「共創基金」——我們希望跳脫「門票買賣」的框架，邀請大家成為這場實驗的共創者，共同投資這場極具意義的創造行動。停浪線計畫作為一場非營利性質的實驗活動，所有費用都將透明地運用於活動執行，若有經費餘額將全數捐出，落實社會共好。</p>
+    </div>
+
+    <div class="relative py-10">
+      <div class="absolute left-0 right-0 top-1/2 -translate-y-1/2" aria-hidden="true">
+        <svg viewBox="0 0 1200 24" preserveAspectRatio="none" class="w-full h-6">
+          <path d="M0,12 C100,2 200,22 300,12 C400,2 500,22 600,12 C700,2 800,22 900,12 C1000,2 1100,22 1200,12" fill="none" stroke="#A9825A" stroke-width="1.5" opacity=".45"/>
+        </svg>
+      </div>
+      <div class="relative grid grid-cols-2 md:grid-cols-4 gap-5 sm:gap-8">
+        <div class="text-center">
+          <div class="stat-num text-3xl sm:text-4xl text-tide mb-1">60</div>
+          <div class="font-bold text-sm text-ink">總參與人數</div>
+          <div class="text-xs text-ink/55 mt-0.5">含 20 位工作人員</div>
+        </div>
+        <div class="text-center">
+          <div class="stat-num text-3xl sm:text-4xl text-tide mb-1">2</div>
+          <div class="font-bold text-sm text-ink">活動天數</div>
+          <div class="text-xs text-ink/55 mt-0.5">7/18(六) 至 7/19(日)</div>
+        </div>
+        <div class="text-center">
+          <div class="stat-num text-3xl sm:text-4xl text-tide mb-1">600</div>
+          <div class="font-bold text-sm text-ink">共創基金 (元)</div>
+          <div class="text-xs text-ink/55 mt-0.5">支持理念的基金</div>
+        </div>
+        <div class="text-center">
+          <div class="stat-num text-3xl sm:text-4xl text-tide mb-1">6</div>
+          <div class="font-bold text-sm text-ink">探索小組</div>
+          <div class="text-xs text-ink/55 mt-0.5">城市探索分為 6 組</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-10 pt-8 sm:pt-12 mt-4 border-t border-ink/15">
+      <div class="space-y-6">
+        <div>
+          <h4 class="font-bold text-tide text-sm mb-1">活動日期</h4>
+          <p class="text-sm text-ink/80">2026 年 7 月 18 日（六）至 7 月 19 日（日）</p>
+        </div>
+        <div>
+          <h4 class="font-bold text-tide text-sm mb-1">活動地點</h4>
+          <p class="text-sm text-ink/80">諸羅設計塾、嘉義市城市各空間</p>
+        </div>
+      </div>
+      <div>
+        <h4 class="font-bold text-tide text-sm mb-2">活動對象</h4>
+        <ul class="space-y-1.5 text-sm text-ink/80">
+          <li class="flex gap-2"><span>—</span>高中生</li>
+          <li class="flex gap-2"><span>—</span>大學生</li>
+          <li class="flex gap-2"><span>—</span>Gap Year 計畫學生</li>
+          <li class="flex gap-2"><span>—</span>對停浪線計畫價值理念有興趣者</li>
+        </ul>
+      </div>
     </div>
   </div>
 </section>
@@ -315,16 +375,297 @@ tailwind.config = {
   </svg>
 </div>
 
+<section class="bg-paper">
+  <div class="max-w-5xl mx-auto px-5 sm:px-8 py-14 sm:py-24">
+    <p class="eyebrow mb-4">目標與緣起</p>
+    <h2 class="text-3xl sm:text-4xl font-bold text-ink mb-12">為什麼需要停浪線？</h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-10 items-stretch">
+      <div>
+        <div class="art-frame bg-ink mb-6 aspect-[4/3]">
+          <img src="https://wandering2026.github.io/Tide-Line-Images/path-kids.jpg" width="720" height="900" alt="插畫：背著書包的學生站在蜿蜒的潮線步道上，四周散落著音符與符號塗鴉" class="w-full h-full object-cover object-bottom opacity-90" loading="lazy" decoding="async">
+        </div>
+        <p class="text-ink/75 leading-relaxed mb-4">
+          自實驗教育三法上路十多年，台灣實驗教育蓬勃發展，政府亦陸續推動多項青年培力與探索學習相關政策。非典型、多元化的學習途徑已逐步成為當代教育與人才培育的新趨勢。然而，多元教育的能量尚未充分轉化為社會對話的動力——體制內外之間的理解鴻溝，依然存在。
+        </p>
+        <details class="group border-t border-ink/15">
+          <summary class="flex items-center gap-2 py-4 font-medium text-tide">
+            <svg class="chev w-4 h-4 transition-transform duration-200" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
+            查看更多
+          </summary>
+          <div class="pb-4 space-y-4 text-ink/70 text-sm leading-relaxed">
+            <p>停浪線計畫的發起成員，正是從實驗教育畢業、踏入社會的年輕人。我們在成長過程中受惠於多元教育的滋養，卻也親身感受到體制教育與實驗教育間的不理解與偏見。這種隔閡，不只是制度上的，更是人與人之間的。</p>
+            <p>我們更深入看見當代學生們共同面對的世代課題：當代社會資訊爆炸，使得學生面對未來時更加焦慮、迷惘。在這樣的時代背景下，「理解世界樣貌」與「建構自我價值」對於學生而言至關重要，更是面對時代變革的核心素養。</p>
+            <p>因此，停浪線計畫希望以「行動」來回應共同的世代課題。我們不只談論問題，更要創造一個真實的場域，讓不同背景的年輕人能夠真正相遇、碰撞、共創。</p>
+          </div>
+        </details>
+      </div>
+
+      <div class="text-paper p-7 sm:p-10 rounded-sm relative overflow-hidden bg-cover" style="background-image:linear-gradient(180deg, rgba(22,35,43,.88), rgba(22,35,43,.94)), url('https://wandering2026.github.io/Tide-Line-Images/frame-waves.jpg');">
+        <p class="eyebrow on-dark !text-[#78b4e6] mb-4">核心價值</p>
+        <h4 class="font-display font-medium text-2xl mb-5 text-[#78b4e6] tracking-wide">what we believe</h4>
+        <p class="text-sm leading-relaxed mb-4 text-paper/85">
+          過去時代面對迷茫與焦慮，大多透過「努力向上追求」來找尋穩定，但當代資訊爆炸、敘事崩解，我們逐漸發現即便努力追，仍然追不上世界轉動的速度，反倒越追越焦慮，追求失敗則陷入迷惘。
+        </p>
+        <p class="text-sm leading-relaxed text-paper/85">
+          於是停浪線計畫想透過一場實驗性行動，以「玩」的姿態作為行動的核心價值，實踐跨體制交流。當不同教育背景的學生一起「玩」，大家不再被動的接收資訊，而是成為主動的創造者，在「玩」的過程中看見彼此的多元樣貌，也讓參與者暫時放下焦慮，創造一個能夠喘息的場域重新覺察自己。
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="tide-divider bg-paper" aria-hidden="true">
+  <svg viewBox="0 0 1200 34" preserveAspectRatio="none">
+    <path d="M0,17 C60,5 120,29 180,17 C240,5 300,29 360,17 C420,5 480,29 540,17 C600,5 660,29 720,17 C780,5 840,29 900,17 C960,5 1020,29 1080,17 C1120,10 1160,20 1200,17"/>
+    <circle cx="240" cy="17" r="3"/><circle cx="660" cy="17" r="3"/><circle cx="1020" cy="17" r="3"/>
+  </svg>
+</div>
+
+<!-- ============ DAY 1 ============ -->
+<section id="schedule" class="bg-paper-deep">
+  <div class="max-w-5xl mx-auto px-5 sm:px-8 py-14 sm:py-24">
+    <p class="eyebrow mb-4">Day 1 · 7/18（六）</p>
+    <h2 class="text-3xl sm:text-4xl font-bold text-ink mb-8">交流晚會——對話實驗場</h2>
+
+    <p class="text-ink/75 leading-relaxed max-w-3xl mb-6">
+      第一天下午，60 位來自不同背景的年輕人將在諸羅設計塾相遇。這不是一場傳統的講座或研討會，而是一個充滿實驗精神的「對話實驗場」。我們將整個場域劃分為多個小空間，每個空間都有獨特的主題與活動形式，讓參與者能夠根據自己的興趣與狀態，自由選擇想要參與的互動。
+    </p>
+
+    <div class="art-frame bg-ink mb-8 aspect-[21/9]">
+      <img src="https://wandering2026.github.io/Tide-Line-Images/band-bonfire.jpg" width="1600" height="666" alt="插畫：學生們在海邊圍著營火演奏樂器、放聲高歌" class="w-full h-full object-cover opacity-90" loading="lazy" decoding="async">
+    </div>
+
+    <details class="group border-t border-ink/15 mb-8 sm:mb-14">
+      <summary class="flex items-center gap-2 py-4 font-medium text-tide">
+        <svg class="chev w-4 h-4 transition-transform duration-200" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
+        查看更多
+      </summary>
+      <div class="pb-4 space-y-4 text-ink/70 text-sm leading-relaxed">
+        <p>晚會的核心精神是「打破框架、真實相遇」。我們刻意避免單向的知識傳遞，而是設計各種能夠促進真實對話的環節——從輕鬆的娛樂破冰，到深度的議題沙龍，再到需要協作完成的展覽共創。每個環節都經過精心設計，讓參與者在「玩」的過程中，自然地卸下防備，展現最真實的自己。</p>
+        <p>「娛樂破冰」環節包含開場破冰遊戲、講幹話大賽與八卦算命攤，讓大家在笑聲中建立初步的連結；「主題交流」則包含停浪線電競賽、議題沙龍與學生舞台，讓有興趣深入交流的參與者能在特定主題下進行更深入的對話；「展覽共創」則是所有人共同完成的集體創作，包括車票地圖、主視覺共創與「什麼是停浪線」的集體書寫，讓每個人的足跡都成為這場活動的一部分。</p>
+      </div>
+    </details>
+
+    <div class="relative py-10 hidden md:block" aria-hidden="false">
+      <div class="absolute left-0 right-0 top-1/2 -translate-y-1/2" aria-hidden="true">
+        <svg viewBox="0 0 1200 24" preserveAspectRatio="none" class="w-full h-6">
+          <path d="M0,12 C100,2 200,22 300,12 C400,2 500,22 600,12 C700,2 800,22 900,12 C1000,2 1100,22 1200,12" fill="none" stroke="#2B5F73" stroke-width="1.5" opacity=".5"/>
+        </svg>
+      </div>
+      <div class="relative grid grid-cols-3 gap-4 max-w-4xl mx-auto">
+        <div class="flex flex-col items-center relative">
+          <div class="absolute bottom-full mb-4 text-center w-full px-2">
+            <h4 class="font-bold text-ink whitespace-nowrap">15:30–16:00</h4>
+            <p class="text-sm text-ink/60 mt-1">報到</p>
+          </div>
+          <div class="w-3 h-3 rounded-full bg-tide"></div>
+        </div>
+        <div class="flex flex-col items-center relative">
+          <div class="w-3 h-3 rounded-full bg-tide"></div>
+          <div class="absolute top-full mt-4 text-center w-full px-2">
+            <h4 class="font-bold text-ink whitespace-nowrap">16:00–20:00</h4>
+            <p class="text-sm text-ink/60 mt-1">晚會正式進行<br class="hidden lg:block">（娛樂破冰・主題交流・展覽共創）</p>
+          </div>
+        </div>
+        <div class="flex flex-col items-center relative">
+          <div class="absolute bottom-full mb-4 text-center w-full px-2">
+            <h4 class="font-bold text-ink whitespace-nowrap">20:00–21:00</h4>
+            <p class="text-sm text-ink/60 mt-1">結束、解散</p>
+          </div>
+          <div class="w-3 h-3 rounded-full bg-tide"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="relative pl-6 border-l-2 border-tide/30 space-y-8 py-6 md:hidden">
+      <div class="relative">
+        <div class="absolute -left-[29px] top-1 w-3 h-3 rounded-full bg-tide"></div>
+        <h4 class="font-bold text-ink">15:30–16:00</h4>
+        <p class="text-sm text-ink/60">報到</p>
+      </div>
+      <div class="relative">
+        <div class="absolute -left-[29px] top-1 w-3 h-3 rounded-full bg-tide"></div>
+        <h4 class="font-bold text-ink">16:00–20:00</h4>
+        <p class="text-sm text-ink/60">晚會正式進行（娛樂破冰・主題交流・展覽共創）</p>
+      </div>
+      <div class="relative">
+        <div class="absolute -left-[29px] top-1 w-3 h-3 rounded-full bg-tide"></div>
+        <h4 class="font-bold text-ink">20:00–21:00</h4>
+        <p class="text-sm text-ink/60">結束、解散</p>
+      </div>
+    </div>
+
+    <!-- 在這裡加入 md:mt-20 讓電腦版的網格往下推 -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-px bg-ink/12 mt-8 md:mt-20">
+      <div class="card bg-paper-deep p-6 sm:p-7">
+        <h4 class="font-bold text-lg text-ink mb-2.5">娛樂破冰</h4>
+        <p class="text-sm text-ink/65 leading-relaxed">開場破冰、講幹話大賽、八卦算命攤——讓笑聲成為最自然的破冰劑。</p>
+      </div>
+      <div class="card bg-paper-deep p-6 sm:p-7">
+        <h4 class="font-bold text-lg text-ink mb-2.5">主題交流</h4>
+        <p class="text-sm text-ink/65 leading-relaxed">停浪線電競賽、議題沙龍、學生舞台——在共同興趣中找到深度對話的入口。</p>
+      </div>
+      <div class="card bg-paper-deep p-6 sm:p-7">
+        <h4 class="font-bold text-lg text-ink mb-2.5">展覽共創</h4>
+        <p class="text-sm text-ink/65 leading-relaxed">車票地圖、主視覺共創、什麼是停浪線——每個人都可以是展覽的共同作者。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="tide-divider bg-paper-deep" aria-hidden="true">
+  <svg viewBox="0 0 1200 34" preserveAspectRatio="none">
+    <path d="M0,17 C60,5 120,29 180,17 C240,5 300,29 360,17 C420,5 480,29 540,17 C600,5 660,29 720,17 C780,5 840,29 900,17 C960,5 1020,29 1080,17 C1120,10 1160,20 1200,17"/>
+    <circle cx="120" cy="17" r="3"/><circle cx="480" cy="17" r="3"/><circle cx="840" cy="17" r="3"/>
+  </svg>
+</div>
+
+<section class="bg-paper">
+  <div class="max-w-5xl mx-auto px-5 sm:px-8 py-14 sm:py-24">
+    <p class="eyebrow mb-4">Day 2 · 7/19（日）</p>
+    <h2 class="text-3xl sm:text-4xl font-bold text-ink mb-8">城市探索——生活觀察站</h2>
+
+    <p class="text-ink/75 leading-relaxed max-w-3xl mb-6">
+      第二天，我們將整個嘉義市變成一個巨大的遊戲場。60 位參與者將分為 6 個小組，每組配有隊輔，穿梭在嘉義城市的各種空間中。這不是普通的觀光旅遊，而是一場需要感知、思考與合作才能完成的「城市探索任務」。
+    </p>
+
+    <details class="group border-t border-ink/15 mb-8 sm:mb-14">
+      <summary class="flex items-center gap-2 py-4 font-medium text-tide">
+        <svg class="chev w-4 h-4 transition-transform duration-200" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
+        查看更多
+      </summary>
+      <div class="pb-4 space-y-4 text-ink/70 text-sm leading-relaxed">
+        <p>每支隊伍將透過解鎖互動任務、上傳審核、解謎下一關的方式，逐步推進探索進程。任務的設計融合了對城市空間的觀察、對生活細節的感知，以及團隊協作的能力。我們希望參與者在這個過程中，不只認識嘉義這座城市，更能在與隊友的互動中，看見自己與他人不同的觀察視角與思考方式。</p>
+        <p>城市探索的最終，所有小組將匯聚完成終極任務，並進行社群共創與交流頒獎。這一天的體驗，將是兩天活動中最具挑戰性、也最能體現「跨體制共創」精神的環節——因為在真實的城市脈絡中，沒有標準答案，只有不斷探索、相互協作的過程。</p>
+        <p>從準備階段的集合與物資發放，到跑關階段的解鎖互動任務與上傳審核，再到收尾階段的最終任務解鎖與社群共創，整個城市探索流程設計為一個完整的敘事弧線，讓參與者在每個階段都能感受到推進與成就感。</p>
+      </div>
+    </details>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-px bg-ink/12">
+      <div class="card bg-paper p-6 sm:p-8">
+        <div class="w-11 h-11 rounded-full bg-tide/10 border border-tide/30 flex items-center justify-center mb-5">
+          <svg class="w-5 h-5" fill="none" stroke="#2B5F73" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+        </div>
+        <h4 class="font-bold text-lg text-ink mb-2.5">城市空間探索</h4>
+        <p class="text-sm text-ink/65 leading-relaxed">穿梭嘉義市各特色空間，在真實的城市脈絡中完成任務。</p>
+      </div>
+      <div class="card bg-paper p-6 sm:p-8">
+        <div class="w-11 h-11 rounded-full bg-tide/10 border border-tide/30 flex items-center justify-center mb-5">
+          <svg class="w-5 h-5" fill="none" stroke="#2B5F73" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z"></path></svg>
+        </div>
+        <h4 class="font-bold text-lg text-ink mb-2.5">互動解謎任務</h4>
+        <p class="text-sm text-ink/65 leading-relaxed">每完成一個任務，解鎖下一關線索，逐步推進探索進程。</p>
+      </div>
+      <div class="card bg-paper p-6 sm:p-8">
+        <div class="w-11 h-11 rounded-full bg-tide/10 border border-tide/30 flex items-center justify-center mb-5">
+          <svg class="w-5 h-5" fill="none" stroke="#2B5F73" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+        </div>
+        <h4 class="font-bold text-lg text-ink mb-2.5">團隊協作共創</h4>
+        <p class="text-sm text-ink/65 leading-relaxed">6 組隊伍相互競爭又相互學習，在合作中展現多元視角。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="tide-divider bg-paper" aria-hidden="true">
+  <svg viewBox="0 0 1200 34" preserveAspectRatio="none">
+    <path d="M0,17 C60,5 120,29 180,17 C240,5 300,29 360,17 C420,5 480,29 540,17 C600,5 660,29 720,17 C780,5 840,29 900,17 C960,5 1020,29 1080,17 C1120,10 1160,20 1200,17"/>
+    <circle cx="300" cy="17" r="3"/><circle cx="720" cy="17" r="3"/><circle cx="1080" cy="17" r="3"/>
+  </svg>
+</div>
+
+<!-- ============ 預期效益 & 資源規劃 ============ -->
+<section id="impact" class="bg-paper-deep">
+  <div class="max-w-5xl mx-auto px-5 sm:px-8 py-14 sm:py-24">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 sm:gap-14">
+
+      <div>
+        <p class="eyebrow mb-4">預期效益</p>
+        <h2 class="text-2xl sm:text-3xl font-bold text-ink mb-8">我們期待創造什麼改變？</h2>
+
+        <div class="flex gap-6 mb-8">
+          <div class="flex-1">
+            <div class="stat-num text-3xl text-tide">60</div>
+            <div class="text-sm font-bold text-ink mt-1">直接參與人數</div>
+          </div>
+          <div class="flex-1">
+            <div class="stat-num text-3xl text-tide">2,000+</div>
+            <div class="text-sm font-bold text-ink mt-1">宣傳觸及人次</div>
+          </div>
+        </div>
+
+        <p class="text-sm text-ink/70 leading-relaxed mb-6">
+          除了可量化的指標，更重要的效益在於無形的積累。我們將彙整活動籌辦與執行的完整紀錄，作為多元教育的實務案例。
+        </p>
+
+        <ul class="space-y-4">
+          <li class="flex items-start gap-3">
+            <span class="mt-1">〰</span>
+            <div>
+              <h4 class="font-bold text-sm text-ink">建立跨體制對話的實踐模式</h4>
+              <p class="text-xs text-ink/55 mt-0.5">摸索出一套以學生本位出發的方法論。</p>
+            </div>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="mt-1">〰</span>
+            <div>
+              <h4 class="font-bold text-sm text-ink">積累多元教育實務案例</h4>
+              <p class="text-xs text-ink/55 mt-0.5">供教育界參考運用。</p>
+            </div>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="mt-1">〰</span>
+            <div>
+              <h4 class="font-bold text-sm text-ink">擴大計畫理念的影響力</h4>
+              <p class="text-xs text-ink/55 mt-0.5">透過宣傳與社群傳播，讓更多人認識停浪線價值。</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <div>
+        <p class="eyebrow mb-4">資源規劃</p>
+        <h2 class="text-2xl sm:text-3xl font-bold text-ink mb-8">共創基金與資源運用</h2>
+
+        <div class="text-paper p-6 sm:p-7 rounded-sm mb-6 bg-cover relative overflow-hidden" style="background-image:linear-gradient(160deg, rgba(22,35,43,.90), rgba(22,35,43,.80)), url('https://wandering2026.github.io/Tide-Line-Images/blob-cocreate.jpg'); background-position: 80% center;">
+          <h4 class="font-bold mb-2 text-[#78b4e6]">什麼是共創基金？</h4>
+          <p class="text-sm text-paper/85 leading-relaxed mb-4">
+            停浪線計畫是一場非營利實驗，參與者繳交的 600 元定義為支持理念的「共創基金」，宣告：「我是這場實驗的共同創造者。」
+          </p>
+          <p class="text-xs text-paper/60">
+            總預算預計為 27,500 元（總規模 45,500 元，部分透過贊助減免）。
+          </p>
+        </div>
+
+        <div class="border-t border-ink/15 pt-6">
+          <h4 class="font-bold mb-3 text-ink text-sm">經費運用原則</h4>
+          <ul class="space-y-2.5 text-sm text-ink/70">
+            <li class="flex gap-2"><span>—</span><span><strong class="text-ink">透明公開</strong>：所有經費運用將向參與者公開。</span></li>
+            <li class="flex gap-2"><span>—</span><span><strong class="text-ink">非營利性質</strong>：不以營利為目的，全用於活動。</span></li>
+            <li class="flex gap-2"><span>—</span><span><strong class="text-ink">社會共好</strong>：若有經費餘額將全數捐出。</span></li>
+            <li class="flex gap-2"><span>—</span><span><strong class="text-ink">資源最大化</strong>：透過贊助降低參與者負擔。</span></li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
 <section class="relative bg-ink text-paper bg-cover" style="background-image:linear-gradient(180deg, rgba(22,35,43,.93), rgba(22,35,43,.97)), url('https://wandering2026.github.io/Tide-Line-Images/texture-abstract.jpg'); background-position:center;">
   <div class="max-w-5xl mx-auto px-5 sm:px-8 py-14 sm:py-24">
     
-    <div class="space-y-6 text-paper/75 leading-relaxed max-w-3xl">
+
+    <div class="space-y-4 text-paper/75 leading-relaxed max-w-3xl mb-10 sm:mb-16">
       <p>我們都曾佇立在岸邊遙望，自問：海的另一端是什麼？</p>
       <p>遼闊？自由？茫茫無盡的選擇與漂泊充斥的不確定人生？多數時候是沒有答案的，可這些問題並未消失，在無數個黃昏深夜清晨一波波地拍打上腳踝——在靠近的瞬間變得具體，在退去之後留下痕跡。</p>
       <p>有時候我們會走到離岸邊很遠的地方，忘記自己什麼時候、追尋著什麼來到這裡，在海水突然的冰涼中意識到，自己正站在浪所能抵達的、最遠的地方——那是一道反覆被改寫的界線，是浪的終點，也是岸的起點。那是「停浪線」。</p>
       <p>「停浪線」並不是一條固定的邊界，而是一段隨時間生成的帶狀空間：隨著每一道浪的抵達而延伸，又在退去時重新改寫。人無法主導這種變動——正如我們無法控制浪的來去，也無法預測人生中的焦慮與迷惘何時湧現——於是在這樣不可控的來回之中，我們選擇開展一段不完全分屬海或陸地，卻允許人停留、行動與相遇的過渡場域。</p>
       <p>在這裡，不同教育體制的參與者不再被既有框架劃分，而在持續生成的情境中彼此靠近；透過建構一條綿延的、包容所有起伏的空間，我們在其中對話、奔跑、濺起水花，交融彼此的生命經驗，使原本各自面對海的我們，能在這條反覆生成的「線」上相遇。</p>
-      <p class="pt-4 text-lg font-medium text-paper">不論你已駐足多時或正準備動身，都請加入我們——讓我們淋漓地上岸，或者奮不顧身地躍入海中——我們需要全部的你共同構築這條起伏、綿長而泊泊起泡的停浪線。</p>
+      <p>不論你已駐足多時或正準備動身，都請加入我們——讓我們淋漓地上岸，或者奮不顧身地躍入海中——我們需要全部的你共同構築這條起伏、綿長而泊泊起泡的停浪線。不論你已駐足多時或正準備動身，都請加入我們——讓我們淋漓地上岸，或者奮不顧身地躍入海中——我們需要全部的你共同構築這條起伏、綿長而泊泊起泡的</p><p></p>停浪線。</p>
+
+    </div>
     </div>
   </div>
 </section>
@@ -332,7 +673,7 @@ tailwind.config = {
 </main>
 
 <footer class="bg-ink text-paper text-center py-12 sm:py-16 border-t border-paper/10">
-  <img src="https://wandering2026.github.io/Tide-Line-Images/logo.PNG" onerror="this.src='https://placehold.co/200x100/16232B/78b4e6?text=Tide+Line'" alt="停浪線計畫 Logo" class="mx-auto mb-6 h-14 sm:h-16 w-auto object-contain" loading="lazy" decoding="async">
+  <img src="https://wandering2026.github.io/Tide-Line-Images/logo.PNG" alt="停浪線計畫 Logo" class="mx-auto mb-6 h-14 sm:h-16 w-auto object-contain" loading="lazy" decoding="async">
   <p class="font-display font-medium tracking-wide text-[#78b4e6] text-lg mb-6">the tide always leaves a mark</p>
   <a href="https://docs.google.com/forms/d/e/1FAIpQLSepuJiZShmdcq8QpGgVnMXtw6csF9n3bxCpwX1_H3Ya-3vdFw/viewform?pli=1" target="_blank" rel="noopener noreferrer" class="inline-block px-8 py-3.5 border border-paper/50 rounded-sm font-medium text-paper hover:bg-paper hover:text-ink transition-colors">立即報名參與</a>
   <p class="text-sm text-paper/40 mt-10">© 2026 停浪線計畫 Tide Line. All rights reserved.</p>
@@ -350,20 +691,19 @@ tailwind.config = {
     revealEls.forEach(el => el.classList.add('in-view'));
   }
 
+  // 手機版導航列選單切換邏輯
   const mobileMenuBtn = document.getElementById('mobile-menu-btn');
   const mobileMenu = document.getElementById('mobile-menu');
   const mobileLinks = document.querySelectorAll('.mobile-link');
 
   if (mobileMenuBtn && mobileMenu) {
     mobileMenuBtn.addEventListener('click', () => {
-      const isExpanded = mobileMenuBtn.getAttribute('aria-expanded') === 'true';
-      mobileMenuBtn.setAttribute('aria-expanded', !isExpanded);
-      mobileMenu.classList.toggle('is-open');
+      mobileMenu.classList.toggle('hidden');
     });
+    // 點擊連結後自動收起選單
     mobileLinks.forEach(link => {
       link.addEventListener('click', () => {
-        mobileMenuBtn.setAttribute('aria-expanded', 'false');
-        mobileMenu.classList.remove('is-open');
+        mobileMenu.classList.add('hidden');
       });
     });
   }
